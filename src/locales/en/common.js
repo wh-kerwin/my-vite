@@ -1,0 +1,18 @@
+export default {
+  edit: "edit",
+  delete: "delete",
+  cancel: "cancel",
+  confirm: "confirm",
+  save: "save",
+  search: "search",
+  reset: "reset",
+  loading: "loading...",
+  loadingFail: "loading fail",
+  loadingSuccess: "loading success",
+  dashboard: "dashboard",
+  day: "day",
+  week: "week",
+  month: "month",
+  season: "season",
+  year: "year",
+};

@@ -1,0 +1,15 @@
+import SvgIcon from "@/components/SvgIcon/index.vue";
+
+
+// 组装成一个对象
+const allGlobalComponents = { SvgIcon };
+
+// 对外暴露插件对象，在main.ts中引入后，直接自动调用install方法
+export default {
+  install(app) {
+    // 循环注册所有的全局组件
+    Object.keys(allGlobalComponents).forEach((componentName) => {
+      app.component(componentName, allGlobalComponents[componentName]);
+    });
+  },
+};
