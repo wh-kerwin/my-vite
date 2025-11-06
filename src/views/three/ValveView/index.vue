@@ -65,7 +65,7 @@ const split = (flag) => {
 .control{
   display: flex;
   position: fixed;
-  top:50px;
+  top:95px;
   right: 50px;
 }
 .control button {
