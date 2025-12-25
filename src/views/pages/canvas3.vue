@@ -11,15 +11,17 @@
             @mousedown="startDragging(index)"
         ></div>
       </div>
-      <button @click="getPointsCoordinates">Get Points Coordinates</button>
+      <div class="controls">
+        <el-button type="primary" @click="getPointsCoordinates">获取坐标</el-button>
+        <el-button @click="resetPoints">重置点</el-button>
+        <el-button @click="addPoint">添加点</el-button>
+      </div>
     </div>
 </template>
 
 <script setup>
 import { ElMessageBox } from "element-plus";
-import { ref, reactive, onMounted } from "vue";
 import canvasImg from "@/assets/jpg/7.jpeg";
-// import { login } from "@/api/useRequest";
 
 const lowerCanvasRef = ref(null);
 const contextLower = ref(null);
@@ -34,6 +36,8 @@ const points = reactive([
   { x: 50, y: 150 },
 ]);
 
+const initialPoints = JSON.parse(JSON.stringify(points));
+
 let isDragging = false;
 let currentPointIndex = -1;
 let initialPointPosition = null;
@@ -44,13 +48,17 @@ const redrawCanvas = () => {
     const ctx = canvas.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, points[0].y);
-      for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i].y);
+      if (points.length > 0) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = "#409eff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
       }
-      ctx.closePath();
-      ctx.stroke();
     }
   }
 };
@@ -58,16 +66,13 @@ const redrawCanvas = () => {
 const drawLowerImage = () => {
   const img = new Image();
   img.src = canvasImg;
-  // 根据 canvas 的尺寸和宽高比计算缩放后的图片尺寸
   let scaledWidth, scaledHeight;
   img.onload = () => {
     const ratio = img.width / img.height;
     if (lowerCanvasRef.value.width / ratio <= lowerCanvasRef.value.height) {
-      // 如果图片的宽高比使得宽度能够适应 canvas，则按照宽度缩放
       scaledWidth = lowerCanvasRef.value.width;
       scaledHeight = lowerCanvasRef.value.width / ratio;
     } else {
-      // 否则按照高度缩放
       scaledWidth = lowerCanvasRef.value.height * ratio;
       scaledHeight = lowerCanvasRef.value.height;
     }
@@ -75,7 +80,6 @@ const drawLowerImage = () => {
     imgHeight.value = scaledHeight;
     contextLower.value.drawImage(img, 0, 0, scaledWidth, scaledHeight);
   };  
-  // 添加一个定时器，确保图片加载完成后再调用 drawImage 方法
   setTimeout(() => {
     if (img.complete) {
       contextLower.value.drawImage(img, 0, 0, scaledWidth, scaledHeight);
@@ -90,22 +94,19 @@ const onDragging = (event) => {
     let newX = points[currentPointIndex].x + deltaX;
     let newY = points[currentPointIndex].y + deltaY;
 
-    // 检查新位置是否超出 canvas 边界，并进行限制
-    // const canvasWidth = canvasRef.value.width;
-    // const canvasHeight = canvasRef.value.height;
-    const canvasWidth = imgWidth.value;
-    const canvasHeight = imgHeight.value;
+    const canvasWidth = canvasRef.value.width;
+    const canvasHeight = canvasRef.value.height;
 
     if (newX < 0) {
-      newX = 0; // 如果超出左侧边界，限制在左侧
+      newX = 0;
     } else if (newX > canvasWidth) {
-      newX = canvasWidth; // 如果超出右侧边界，限制在右侧
+      newX = canvasWidth;
     }
 
     if (newY < 0) {
-      newY = 0; // 如果超出上侧边界，限制在上侧
+      newY = 0;
     } else if (newY > canvasHeight) {
-      newY = canvasHeight; // 如果超出下侧边界，限制在下侧
+      newY = canvasHeight;
     }
 
     points[currentPointIndex].x = newX;
@@ -128,56 +129,109 @@ const startDragging = (index) => {
   if (!isDragging) {
     isDragging = true;
     currentPointIndex = index;
-    initialPointPosition = { x: points[index].x + 230, y: points[index].y + 70 };
+    const rect = canvasRef.value.getBoundingClientRect();
+    initialPointPosition = { x: points[index].x + rect.left, y: points[index].y + rect.top };
     document.addEventListener("mousemove", onDragging);
     document.addEventListener("mouseup", stopDragging);
   }
 };
 
 const getPointsCoordinates = () => {
-  let pointsArr = [];
-  for(let i in points) {
-    if (points.hasOwnProperty(i)) {
-      pointsArr.push([points[i].x, points[i].y]);
+  const pointsArr = points.map(p => [Math.round(p.x), Math.round(p.y)]);
+  ElMessageBox.alert(
+    `<div style="text-align: left; max-height: 300px; overflow-y: auto;">
+      ${pointsArr.map((p, i) => `点 ${i + 1}: (${p[0]}, ${p[1]})`).join("<br>")}
+    </div>`, 
+    "坐标信息", 
+    {
+      confirmButtonText: "确定",
+      dangerouslyUseHTMLString: true
     }
-  }
-  // console.log("Points Coordinates:", pointsArr);
-  ElMessageBox.alert(`坐标: ${pointsArr}`, "Title", {
-    confirmButtonText: "OK"
-  });
+  );
+};
 
+const resetPoints = () => {
+  points.length = 0;
+  initialPoints.forEach(p => points.push({ ...p }));
+  redrawCanvas();
+};
+
+const addPoint = () => {
+  if (points.length < 20) {
+    const lastPoint = points[points.length - 1];
+    const newPoint = {
+      x: Math.min(lastPoint.x + 30, 600),
+      y: Math.min(lastPoint.y + 30, 600)
+    };
+    points.push(newPoint);
+    redrawCanvas();
+  } else {
+    ElMessageBox.alert("最多只能添加20个点", "提示", {
+      confirmButtonText: "确定"
+    });
+  }
 };
 
 onMounted(() => {
   contextLower.value = lowerCanvasRef.value.getContext("2d");
-
   drawLowerImage(); 
   redrawCanvas();
 });
 </script>
 
+
 <style scoped>
 .canvas-container {
   display: flex;
   align-items: flex-start;
+  gap: 20px;
 }
+
 .canvasWrapper {
   position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
+
 .canvas {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
 }
+
 .drag-point {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: red;
+  width: 12px;
+  height: 12px;
+  background-color: #409eff;
+  border: 2px solid #fff;
   border-radius: 50%;
   cursor: pointer;
-  transform: translate(-5px, -5px);
+  transform: translate(-50%, -50%);
   z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.3);
+    background-color: #66b1ff;
+    box-shadow: 0 4px 8px rgba(64, 158, 255, 0.4);
+  }
+  
+  &:active {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  .el-button {
+    min-width: 120px;
+  }
 }
 </style>

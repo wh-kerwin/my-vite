@@ -68,6 +68,7 @@ const handleSave = () => {
     ElMessage.warning("请输入 API Key");
     return;
   }
+  console.log(333, form.value.apiKey.trim());
   emit("save", form.value.apiKey.trim());
   dialogVisible.value = false;
 };

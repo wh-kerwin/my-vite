@@ -20,6 +20,7 @@ export default {
   car: "3D Car",
   tokyo: "3D Tokyo",
   shade: "3D Shade",
+  robot: "Robot",
   gui: "3D GUI",
   webrtc: "WebRTC",
   webrtc_photo: "WebRTC photo",

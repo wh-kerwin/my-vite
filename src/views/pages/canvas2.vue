@@ -4,36 +4,34 @@
         <canvas ref="lowerCanvasRef" width="650" height="650"></canvas>  
         <canvas ref="upperCanvasRef" width="650" height="650" class="upperCanvas"></canvas>
     </div>
-    <div>
-        <div class="flex-div">
+    <div class="controls">
+        <div class="control-group">
+            <span class="label">画笔大小:</span>
             <el-select v-model="BrushSize" style="width: 100px">
                 <el-option label="5" value="5" />
                 <el-option label="10" value="10" />
                 <el-option label="15" value="15" />
             </el-select>
-            <el-button type="primary" @click="toggleBrush">画笔</el-button>
+            <el-button type="primary" :class="{ active: !eraser }" @click="toggleBrush">画笔</el-button>
         </div>
-        <div class="flex-div">
+        <div class="control-group">
+            <span class="label">橡皮擦大小:</span>
             <el-select v-model="EraserSize" style="width: 100px">
                 <el-option label="5" value="5" />
                 <el-option label="10" value="10" />
                 <el-option label="20" value="20" />
             </el-select>
-            <el-button type="primary" @click="toggleEraser">橡皮擦</el-button> 
+            <el-button type="primary" :class="{ active: eraser }" @click="toggleEraser">橡皮擦</el-button> 
         </div> 
-        <el-button @click="exportCanvas">导出图片</el-button>
-        <div id="imgs"></div>
+        <el-button type="success" @click="exportCanvas">导出图片</el-button>
     </div>
-    
   </div>  
 </template>  
   
 <script setup>
 import canvasImg from "@/assets/jpg/7.jpeg";
-import {ref, onMounted, reactive} from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
-// eslint-disable-next-line no-unused-vars
-const fileInfo = reactive({});
 const lowerCanvasRef = ref(null);
 const upperCanvasRef = ref(null);
 const lowerCtx = ref(null);
@@ -46,56 +44,16 @@ const lineWidth = ref(10);
 const eraser = ref(true);
 const BrushSize = ref("5");
 const EraserSize = ref("10");
-// const imgMarker = new Image();
 const isDrawing = ref(false);
 
-    
 const drawUpperMask = () => {
-  // 绘制黑白mask图片 
   upperCtx.value.fillStyle = "#000";
   upperCanvasRef.value.width = imgWidth.value;
   upperCanvasRef.value.height = imgHeight.value;
   upperCtx.value.fillRect(0, 0, imgWidth.value, imgHeight.value);
-  // imgMarker.src = fileInfo.value.base64;
-  // imgMarker.onload = () => {
-  //   upperCanvasRef.value.width = imgWidth.value;
-  //   upperCanvasRef.value.height = imgHeight.value;
-  //   upperCtx.value.drawImage(imgMarker, 0, 0, imgWidth.value, imgHeight.value);
-  // };  
-  // // 添加一个定时器，确保图片加载完成后再调用 drawImage 方法
-  // setTimeout(() => {
-  //   if (imgMarker.complete) {
-  //     upperCtx.value.drawImage(imgMarker, 0, 0, imgWidth.value, imgHeight.value);
-  //   }
-  // }, 100);
 };
 
 const drawLowerImage = () => {
-  // const img = new Image();
-  // img.src = canvasImg;
-  // let scaledWidth, scaledHeight;
-  // img.onload = () => {
-  //   const ratio = img.width / img.height;
-  //   if (lowerCanvasRef.value.width / ratio <= lowerCanvasRef.value.height) {
-  //     // 如果图片的宽高比使得宽度能够适应 canvas，则按照宽度缩放
-  //     scaledWidth = lowerCanvasRef.value.width;
-  //     scaledHeight = lowerCanvasRef.value.width / ratio;
-  //   } else {
-  //     // 否则按照高度缩放
-  //     scaledWidth = lowerCanvasRef.value.height * ratio;
-  //     scaledHeight = lowerCanvasRef.value.height;
-  //   }
-  //   imgWidth.value = scaledWidth;
-  //   imgHeight.value = scaledHeight;
-  //   contextLower.value.drawImage(img, 0, 0, scaledWidth, scaledHeight);
-  // };  
-  // // 添加一个定时器，确保图片加载完成后再调用 drawImage 方法
-  // setTimeout(() => {
-  //   if (img.complete) {
-  //     contextLower.value.drawImage(img, 0, 0, scaledWidth, scaledHeight);
-  //     drawUpperMask();
-  //   }
-  // }, 100);
   const img = new Image();
   img.src = canvasImg;
   img.onload = () => {
@@ -105,7 +63,6 @@ const drawLowerImage = () => {
     imgHeight.value = img.height;
     lowerCtx.value.drawImage(img, 0, 0, imgWidth.value, imgHeight.value);
   };  
-  // 添加一个定时器，确保图片加载完成后再调用 drawImage 方法
   setTimeout(() => {
     if (img.complete) {
       lowerCtx.value.drawImage(img, 0, 0, imgWidth.value, imgHeight.value);
@@ -116,11 +73,11 @@ const drawLowerImage = () => {
     
 const clearArea = (x, y, radius) => {
   const ctx = upperCtx.value;
-  ctx.globalCompositeOperation = eraser.value ? "destination-out" : "source-over"; // 设置为擦除模式
+  ctx.globalCompositeOperation = eraser.value ? "destination-out" : "source-over";
   ctx.strokeStyle = eraser.value ? "white" : "black";
   ctx.lineWidth = lineWidth.value;
   ctx.beginPath();
-  if(eraser.value) {
+  if (eraser.value) {
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fill();
   } else {
@@ -131,19 +88,20 @@ const clearArea = (x, y, radius) => {
   lastX.value = x;
   lastY.value = y;
 };
+
 const startDraw = (e) => {
   const pos = e.target.getBoundingClientRect();
   isDrawing.value = true;
   lastX.value = e.clientX - pos.left;
   lastY.value = e.clientY - pos.top;
-  clearArea(e.clientX - pos.left, e.clientY - pos.top, lineWidth.value); // 擦除半径为 20 的区域
+  clearArea(e.clientX - pos.left, e.clientY - pos.top, lineWidth.value / 2);
 };
   
-/* const draw = (e) => {
+const draw = (e) => {
   if (!isDrawing.value) {return;}
   const pos = e.target.getBoundingClientRect();
-  clearArea(e.clientX - pos.left, e.clientY - pos.top, lineWidth.value);
-}; */
+  clearArea(e.clientX - pos.left, e.clientY - pos.top, lineWidth.value / 2);
+};
   
 const stopDraw = () => {
   isDrawing.value = false;
@@ -160,7 +118,6 @@ const toggleEraser = () => {
 };
     
 const exportCanvas = () => {
-  //const upperImageData = contextUpper.value.getImageData(0, 0, upperCanvasRef.value.width, upperCanvasRef.value.height);
   const canvas = document.createElement("canvas");    
   const ctx = canvas.getContext("2d");
   canvas.width = lowerCanvasRef.value.width;
@@ -180,24 +137,6 @@ const exportCanvas = () => {
   link.click();
   upperCanvasRef.value.style.opacity = 0.6;
   document.body.removeChild(link);
-  // console.log("导出成功", link);
-};
-
-const state = reactive({
-  isDrawing: false,
-  lastX: 0,
-  lastY: 0,
-  lineWidth: 10,
-  eraser: true,
-  BrushSize: "5",
-  EraserSize: "10"
-});
-
-
-const draw = (e) => {
-  if (!state.isDrawing) {return;}
-  const pos = e.target.getBoundingClientRect();
-  clearArea(e.clientX - pos.left, e.clientY - pos.top, state.lineWidth);
 };
 
 const initCanvas = () => {
@@ -209,7 +148,7 @@ const initCanvas = () => {
   upperCanvas.addEventListener("mousedown", startDraw);
   upperCanvas.addEventListener("mousemove", draw);
   upperCanvas.addEventListener("mouseup", stopDraw);
-  upperCanvas.addEventListener("mouseleave", stopDraw); // 添加鼠标离开事件
+  upperCanvas.addEventListener("mouseleave", stopDraw);
 };
 
 onMounted(() => {
@@ -218,38 +157,64 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  // 清理事件监听
   const upperCanvas = upperCanvasRef.value;
-  upperCanvas.removeEventListener("mousedown", startDraw);
-  upperCanvas.removeEventListener("mousemove", draw);
-  upperCanvas.removeEventListener("mouseup", stopDraw);
-  upperCanvas.removeEventListener("mouseleave", stopDraw);
+  if (upperCanvas) {
+    upperCanvas.removeEventListener("mousedown", startDraw);
+    upperCanvas.removeEventListener("mousemove", draw);
+    upperCanvas.removeEventListener("mouseup", stopDraw);
+    upperCanvas.removeEventListener("mouseleave", stopDraw);
+  }
 });
 </script>
 
+
 <style lang="scss" scoped>
-    .canvas-container { 
-        display: flex;
-        align-items: flex-start;
+.canvas-container { 
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.canvasWrapper {
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.upperCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0.6;
+    cursor: crosshair;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .label {
+        font-size: 14px;
+        color: #606266;
+        white-space: nowrap;
     }
 
-    .canvasWrapper {
-        position: relative;
-    }
-    .upperCanvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1;
-        opacity: 0.6;
-    }
-
-    .flex-div {
-        display: flex;
-        margin-bottom: 10px;
-
-        .el-button {
-            margin-left: 5px;
+    .el-button {
+        margin-left: 5px;
+        
+        &.active {
+            background-color: #409eff;
+            border-color: #409eff;
         }
     }
+}
 </style>

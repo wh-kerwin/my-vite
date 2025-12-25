@@ -66,7 +66,7 @@
     </div>
 
     <!-- API Key 设置对话框 -->
-    <ApiKeyDialog v-model:visible="apiKeyDialogVisible" />
+    <ApiKeyDialog v-model:visible="apiKeyDialogVisible" :api-key="getZhipuApiKey()" @save="handleApiKeySave" />
   </div>
 </template>
 
@@ -78,7 +78,8 @@ import { ChatDotRound, User, CopyDocument } from "@element-plus/icons-vue";
 import {
   sendMessageToZhipuAI,
   clearConversationHistory,
-  getZhipuApiKey
+  getZhipuApiKey,
+  setZhipuApiKey
 } from "@/api/zhipu";
 import MarkdownIt from "markdown-it";
 import ChatHeader from "./components/ChatHeader.vue";
@@ -211,6 +212,12 @@ const sendQuickPrompt = (prompt) => {
 // 显示 API Key 设置对话框
 const showApiKeyDialog = () => {
   apiKeyDialogVisible.value = true;
+};
+
+// 保存 API Key
+const handleApiKeySave = (apiKey) => {
+  setZhipuApiKey(apiKey);
+  ElMessage.success("API Key 保存成功");
 };
 
 // 停止生成
