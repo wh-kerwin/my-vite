@@ -9,7 +9,12 @@
     "build:prod": "vite build --mode prod",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore --fix src",
-    "tailwind:init": "tailwindcss init -p"
+    "tailwind:init": "tailwindcss init -p",
+    "push-it": "node scripts/push-it.js",
+    "push-it:enhanced": "node scripts/push-it-enhanced.js",
+    "push-it:fix": "node scripts/push-it-enhanced.js -m \"fix:\"",
+    "push-it:feat": "node scripts/push-it-enhanced.js -m \"feat:\"",
+    "push-it:refactor": "node scripts/push-it-enhanced.js -m \"refactor:\""
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,vue,css,sass,scss,less,md,json,html}": [
