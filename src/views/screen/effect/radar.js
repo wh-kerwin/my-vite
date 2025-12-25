@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 const frag_basic = `
 precision mediump float;
- 
+
 float atan2(float y, float x){
   float t0, t1, t2, t3, t4;
   t3 = abs(x);
@@ -24,7 +24,7 @@ float atan2(float y, float x){
   t3 = (y < 0.0) ? -t3 : t3;
   return t3;
 }
-// 计算距离
+
 float distanceTo(vec2 src, vec2 dst) {
 	float dx = src.x - dst.x;
 	float dy = src.y - dst.y;
@@ -45,45 +45,40 @@ uniform float u_speed;
 varying vec2 v_position;
 
     `;
+
 const Shader = {
   vertexShader: `
     varying vec2 v_position;
-    
     void main() {
         v_position = vec2(position.x, position.y);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }`,
   fragmentShader: `
-    ${frag_basic} 
+    ${frag_basic}
     void main() {
         float d_time = u_speed * time;
-
         float angle = atan2(v_position.x, v_position.y) + PI;
-        
         float angleT = mod(angle + d_time, PI2);
-
         float width = u_width;
-    
         float d_opacity = 0.0;
-
-        // 当前位置离中心位置
         float length = distanceTo(vec2(0.0, 0.0), v_position);
-        
         float bw = 5.0;
+
         if (length < u_radius && length > u_radius - bw) {
             float o = (length - (u_radius - bw)) / bw;
-            d_opacity = sin(o * PI); 
+            d_opacity = sin(o * PI);
         }
 
         if (length < u_radius - bw / 1.1) {
             d_opacity = 1.0 - angleT / PI * (PI / width);
-        } 
+        }
 
         if (length > u_radius) { d_opacity = 0.0; }
- 
+
         gl_FragColor = vec4(u_color, d_opacity * u_opacity);
     }`
 };
+
 export default function (opts) {
   const {
     radius = 50,
@@ -91,42 +86,21 @@ export default function (opts) {
     speed = 1,
     opacity = 1,
     angle = Math.PI,
-    position = {
-      x: 0,
-      y: 0,
-      z: 0
-    },
-    rotation = {
-      x: -Math.PI / 2,
-      y: 0,
-      z: 0
-    }
+    position = { x: 0, y: 0, z: 0 },
+    rotation = { x: -Math.PI / 2, y: 0, z: 0 }
   } = opts;
 
   const width = radius * 2;
-
   const geometry = new THREE.PlaneGeometry(width, width, 1, 1);
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      u_radius: {
-        value: radius
-      },
-      u_speed: {
-        value: speed
-      },
-      u_opacity: {
-        value: opacity
-      },
-      u_width: {
-        value: angle
-      },
-      u_color: {
-        value: new THREE.Color(color)
-      },
-      time: {
-        value: 0
-      }
+      u_radius: { value: radius },
+      u_speed: { value: speed },
+      u_opacity: { value: opacity },
+      u_width: { value: angle },
+      u_color: { value: new THREE.Color(color) },
+      time: { value: 0 }
     },
     transparent: true,
     depthWrite: false,
@@ -136,7 +110,6 @@ export default function (opts) {
   });
 
   const mesh = new THREE.Mesh(geometry, material);
-
   mesh.rotation.set(rotation.x, rotation.y, rotation.z);
   mesh.position.copy(position);
 

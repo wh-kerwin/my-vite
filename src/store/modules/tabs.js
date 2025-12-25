@@ -73,7 +73,7 @@ export const useTabsStore = defineStore({
       if (currentIndex !== -1) {
         const range = type === "left" ? [0, currentIndex] : [currentIndex + 1, this.tabsMenuList.length];
         this.tabsMenuList = this.tabsMenuList.filter((item, index) => {
-          return index < range[0] || index >= range[1] || !item.close;
+          return index < range[0] || index >= range[1] || item.name === "dashboard";
         });
       }
       // set keepalive
@@ -83,7 +83,7 @@ export const useTabsStore = defineStore({
     // Close MultipleTab
     async closeMultipleTab(tabsMenuValue) {
       this.tabsMenuList = this.tabsMenuList.filter(item => {
-        return item.path === tabsMenuValue || !item.close;
+        return item.path === tabsMenuValue || item.name === "dashboard";
       });
       // set keepalive
       const KeepAliveList = this.tabsMenuList.filter(item => item.isKeepAlive);

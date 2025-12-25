@@ -4,6 +4,7 @@
 
 <script setup>
 import BaseCharts from "@/components/BaseEcharts/index.vue";
+import { CHART_CONFIG } from "./chartConfig";
 
 defineProps({
   heights: {
@@ -14,28 +15,7 @@ defineProps({
 
 const options = {
   tooltip: {},
-  //   legend: {
-  //     show: true,
-  //     icon: "circle",
-  //     bottom: 30,
-  //     center: 0,
-  //     itemWidth: 14,
-  //     itemHeight: 14,
-  //     shadowColor: "rgba(0, 0, 0, 1)",
-  //     shadowBlur: 30,
-  //     shadowOffsetX: 10,
-  //     shadowOffsetY: 10,
-  //     // itemGap: 30,
-  //     orient: "horizontal",
-  //     data: ["一级权重分析d", "二级权重分析"],
-  //     textStyle: {
-  //       fontSize: 14,
-  //       color: "#fff"
-  //     },
-  //   },
-
   radar: {
-    // shape: 'circle',
     radius: "90%",
     center: ["50%", "50%"],
     startAngle: 0,
@@ -56,12 +36,9 @@ const options = {
       { name: "服装" },
       { name: "旅游" },
     ],
-    axisLabel: {
-      show: false,
-      color: "#333"
-    },
+    axisLabel: { show: false, color: "#333" },
     alignTicks: true,
-    splitNumber: 5, // 设置每个轴的刻度数量
+    splitNumber: 5,
     splitArea: {
       areaStyle: {
         color: [
@@ -110,12 +87,8 @@ const options = {
         color: "rgba(127,255,210, 0.6)",
         width: 2
       },
-      label: {
-        show: true,
-      },
-      data: [
-        [1250, 1300, 1500, 1350, 1800]
-      ]
+      label: { show: true },
+      data: [[1250, 1300, 1500, 1350, 1800]]
     },
     {
       name: "二级权重分析",
@@ -134,13 +107,10 @@ const options = {
         color: "rgba(255,237,145, 0.6)",
         width: 2
       },
-      data: [
-        [900, 1500, 1280, 1350, 1500]
-      ]
+      data: [[900, 1500, 1280, 1350, 1500]]
     }
   ]
 };
-
 </script>
 
 <style lang="scss" scoped>

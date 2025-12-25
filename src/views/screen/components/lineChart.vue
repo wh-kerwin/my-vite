@@ -39,49 +39,22 @@ const LineOptions = {
       rotate: 30,
       color: "#fff",
     },
-    axisTick: {
-      show: false,
-    },
+    axisTick: { show: false },
     axisLine: {
       show: true,
-      lineStyle: {
-        color: "#fff",
-      },
+      lineStyle: { color: "#fff" },
     },
   },
   yAxis: {
     type: "value",
     axisLabel: {
-      formatter: (val) => {
-        return val;
-      },
+      formatter: (val) => val,
     },
     show: true,
-    axisTick: {
-      show: false,
-    },
+    axisTick: { show: false },
     axisLine: {
       show: true,
-      lineStyle: {
-        color: "#fff",
-      },
-    },
-  },
-  yAxis: {
-    axisLabel: {
-      formatter: (val) => {
-        return val;
-      },
-    },
-    show: true,
-    axisTick: {
-      show: true,
-    },
-    axisLine: {
-      show: true,
-      lineStyle: {
-        color: "#fff",
-      },
+      lineStyle: { color: "#fff" },
     },
   },
   series: [
@@ -102,5 +75,4 @@ const LineOptions = {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

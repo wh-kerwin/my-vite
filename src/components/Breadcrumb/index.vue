@@ -32,23 +32,23 @@ onMounted(() => {
 const getBreadcrumb = () => {
   // only show routes with meta.title
   matched.value = route.matched.filter((item) => item.meta && item.meta.title);
-  const first = matched.value[0];
+  /* const first = matched.value[0];
 
   // eslint-disable-next-line no-use-before-define
   if (!isDashboard(first)) {
     matched.value = [{ path: "/dashboard", meta: { title: "menu.home" }}].concat(matched.value);    
-  }
+  } */
 
   levelList.value = matched.value.filter((item) => item.meta && item.meta.title && item.meta.breadcrumb !== false);
 };
 
-const isDashboard = (route) => {
+/* const isDashboard = (route) => {
   const name = route && route.name;
   if (!name) {
     return false;
   }
   return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase(); 
-};
+}; */
 
 const handleLink = (item) => {
   // 添加handleLink函数的实现

@@ -4,6 +4,7 @@
 
 <script setup>
 import BaseCharts from "@/components/BaseEcharts/index.vue";
+import { CHART_CONFIG } from "./chartConfig";
 
 defineProps({
   heights: {
@@ -12,141 +13,96 @@ defineProps({
   },
 });
 
+const labelFormatter = (param) => {
+  return `{a| ${param.seriesName}}` + "\n\n{b|${param.percent}% }";
+};
+
+const richLabel = {
+  a: { fontSize: 14, color: CHART_CONFIG.colors.chartBlue, lineHeight: 19 },
+  b: { fontSize: 20, color: CHART_CONFIG.colors.chartBlue, lineHeight: 23 }
+};
+
+const richLabelCyan = {
+  a: { fontSize: 14, color: CHART_CONFIG.colors.chartCyan, lineHeight: 19 },
+  b: { fontSize: 20, color: CHART_CONFIG.colors.chartCyan, lineHeight: 23 }
+};
+
 const options = {
   tooltip: {
     trigger: "item",
     backgroundColor: "rgba(200,231,242,0.9)",
-    textStyle: {
-      color:"rgba(20,34,54,1)"
-    },
-    formatter: function(param) {
-      if(param.data.name === "other") {return "";}
+    textStyle: { color: "rgba(20,34,54,1)" },
+    formatter: (param) => {
+      if (param.data.name === "other") { return ""; }
       return param.name + "</br>在线率: " + param.percent + "%";
     }
   },
-  // 内圈背景，外圈背景，内圈数据，多余数据，外圈数据
-  color: ["rgba(3, 128, 195, 0.1)", "rgba(38, 66, 89, 1)", "rgba(110, 111, 255, 1)", "transparent", "rgba(61, 208, 241, 1)"],
-  series: [{
-    name: "内层背景",
-    type: "pie",
-    radius: ["60%", "80%"],
-    silent: true,
-    label: {
-      show: false,
+  color: CHART_CONFIG.pieColors,
+  series: [
+    {
+      name: "内层背景",
+      type: "pie",
+      radius: ["60%", "80%"],
+      silent: true,
+      label: { show: false },
+      data: [{ value: 0, name: "内层背景" }]
     },
-    data: [{
-      value: 0,
-      name: "内层背景"
-    }]
-  },
-  {
-    name: "外层背景",
-    type: "pie",
-    radius: ["80%", "90%"],
-    silent: true,
-    label: {
-      show: false,
+    {
+      name: "外层背景",
+      type: "pie",
+      radius: ["80%", "90%"],
+      silent: true,
+      label: { show: false },
+      data: [{ value: 0, name: "外层背景" }]
     },
-    data: [{
-      value: 0,
-      name: "外层背景"
-    }]
-  },
-  {
-    name: "IPC",
-    type: "pie",
-    radius: ["60%", "70%"],
-    avoidLabelOverlap: false,
-    label: {
-      show: true,
-      position: "center",
-      padding: [0,0,0,80],
-      align: "center",
-      width: 70,
-      height: 50,
-      lineHeight: 14, // 控制\n的行高
-      fontSize: 14,
-      formatter: function(param) {
-        return "{a| "+ param.seriesName +"}" + "\n\n{b|"+ param.percent +"% }";
-      },
-      rich: {
-        a : {
-          fontSize: 14,
-          color: "rgba(110, 111, 255, 1)",
-          lineHeight: 19,
-
-        },
-        b: {
-          fontSize: 20,
-          color: "rgba(110, 111, 255, 1)",
-          lineHeight: 23,
-        }
-      },
-    },
-    data: [{
-      value: 56,
+    {
       name: "IPC",
+      type: "pie",
+      radius: ["60%", "70%"],
+      avoidLabelOverlap: false,
       label: {
-        show: false
-      }
+        show: true,
+        position: "center",
+        padding: [0, 0, 0, 80],
+        align: "center",
+        width: 70,
+        height: 50,
+        lineHeight: 14,
+        fontSize: 14,
+        formatter: labelFormatter,
+        rich: richLabel,
+      },
+      data: [
+        { value: 56, name: "IPC", label: { show: false } },
+        { value: 100, name: "other" }
+      ]
     },
     {
-      value: 100,
-      name: "other"
-    }
-    ]
-  },
-  {
-    name: "设备",
-    type: "pie",
-    radius: ["70%", "80%"],
-    avoidLabelOverlap: false,
-    emphasis:{
-      scale: false
-    },
-    label: {
-      show: true,
-      position: "center",
-      padding: [0,80,0,0],
-      align: "center",
-      width: 70,
-      height: 50,
-      lineHeight: 14, // 控制\n的行高
-      fontSize: 14, 
-      formatter: function(param) {
-        return "{a| "+ param.seriesName +"}" + "\n\n{b|"+ param.percent +"% }";
-      },
-      rich: {
-        a : {
-          fontSize: 14,
-          color: "rgba(61, 208, 241, 1)",
-          lineHeight: 19,
-        },
-        b: {
-          fontSize: 20,
-          color: "rgba(61, 208, 241, 1)",
-          lineHeight: 23,
-        }
-      },
-    },
-    data: [{
-      value: 87,
       name: "设备",
+      type: "pie",
+      radius: ["70%", "80%"],
+      avoidLabelOverlap: false,
+      emphasis: { scale: false },
       label: {
-        show: false
-      }
-    },
-    {
-      value: 100,
-      name: "other"
-    },
-    ]
-  },
+        show: true,
+        position: "center",
+        padding: [0, 80, 0, 0],
+        align: "center",
+        width: 70,
+        height: 50,
+        lineHeight: 14,
+        fontSize: 14,
+        formatter: labelFormatter,
+        rich: richLabelCyan,
+      },
+      data: [
+        { value: 87, name: "设备", label: { show: false } },
+        { value: 100, name: "other" }
+      ]
+    }
   ]
 };
-
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -130,6 +130,7 @@ export default defineConfig((commond) => {
         resolvers: [ElementPlusResolver()]
       }),
       eslint({
+        overrideConfigFile: ".eslintrc.cjs",
         include: ["src/**/*.js", "src/**/*.vue", "src/*.js", "src/*.vue"],
         cache: false,
       }),

@@ -21,7 +21,7 @@ module.exports = {
     "guard-for-in": "error", // 要求 for-in 循环中使用守卫语句
     "no-else-return": "error", // 禁止 if-else 语句中出现 return
     "no-empty-function": "error", // 禁止空函数
-    "no-use-before-define": "error", // 禁止变量使用前定义
+    "no-use-before-define": "off", // 禁止变量使用前定义
     "vue/multi-word-component-names": "off",
     // 警告级别规则
     quotes: ["warn", "double"], // 字符串使用单引号

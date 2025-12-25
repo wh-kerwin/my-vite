@@ -13,8 +13,8 @@ defineProps({
   },
 });
 
-var value = 0.2;
-var data = [value, value, value, ];
+const value = 0.2;
+const data = [value, value, value];
 const options = {
   width: "100%",
   height: "100%",
@@ -26,9 +26,7 @@ const options = {
       fontWeight: "normal",
       color: "#bcb8fb",
       rich: {
-        a: {
-          fontSize: 20,
-        }
+        a: { fontSize: 20 }
       }
     },
     x: "center",
@@ -52,10 +50,10 @@ const options = {
   }],
   series: [
     {
-      type: "liquidFill",
+      type: "liquidfill",
       radius: "90%",
       data: data,
-      center: ["50%", "50%"], //图在整个画布的位置
+      center: ["50%", "50%"],
       backgroundStyle: {
         color: {
           type: "linear",
@@ -63,32 +61,22 @@ const options = {
           y: 0,
           x2: 0.5,
           y2: 1,
-          colorStops: [{
-            offset: 1,
-            color: "rgba(68, 145, 253, 0)"
-          }, {
-            offset: 0.5,
-            color: "rgba(68, 145, 253, .25)"
-          }, {
-            offset: 0,
-            color: "rgba(68, 145, 253, 1)"
-          }],
+          colorStops: [
+            { offset: 1, color: "rgba(68, 145, 253, 0)" },
+            { offset: 0.5, color: "rgba(68, 145, 253, .25)" },
+            { offset: 0, color: "rgba(68, 145, 253, 1)" }
+          ],
           globalCoord: false
         },
       },
       label: {
-        //水球图里面的文字喝字体等设置
-        formatter: function (value) {
-          if (!value) {
-            return "加载中";
-          } 
-          return 0.2 *100 + "%";
-                
+        formatter: (val) => {
+          if (!val) { return "加载中"; }
+          return 0.2 * 100 + "%";
         },
         fontSize: 22,
       },
       outline: {
-        //水球图的外层边框 可设置 show:false  不显示
         itemStyle: {
           borderColor: "#DCDCDC",
           borderWidth: 3,
@@ -101,18 +89,13 @@ const options = {
         y: 0,
         x2: 0,
         y2: 1,
-        colorStops: [{
-          offset: 1,
-          color: "rgba(58, 71, 212, 0)"
-        }, {
-          offset: 0.5,
-          color: "rgba(31, 222, 225, .2)"
-        }, {
-          offset: 0,
-          color: "rgba(31, 222, 225, 1)"
-        }],
+        colorStops: [
+          { offset: 1, color: "rgba(58, 71, 212, 0)" },
+          { offset: 0.5, color: "rgba(31, 222, 225, .2)" },
+          { offset: 0, color: "rgba(31, 222, 225, 1)" }
+        ],
         globalCoord: false
-      }], //波浪的颜色
+      }],
       itemStyle: {
         opacity: 0.95,
         shadowColor: "rgba(0,0,0,0)",
@@ -120,5 +103,7 @@ const options = {
     },
   ],
 };
-
 </script>
+
+<style lang="scss" scoped>
+</style>
