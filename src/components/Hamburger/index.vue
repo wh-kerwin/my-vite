@@ -31,6 +31,7 @@ const toggleClick = () => {
     vertical-align: middle;
     width: 20px;
     height: 20px;
+    fill: hsl(var(--foreground) / 0.7) !important;
   }
   
   .hamburger.is-active {

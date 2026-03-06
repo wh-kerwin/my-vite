@@ -7,10 +7,11 @@
       position: relative;
     }
   
-    .sidebar-container {
+      .sidebar-container {
       transition: width 0.28s;
       width: $sideBarWidth !important;
-      background-color: $menuBg;
+      background-color: hsl(var(--primary) / 0.1);
+      border-right: 1px solid hsl(var(--border));
       height: 100%;
       position: fixed;
       font-size: 0px;
@@ -66,9 +67,11 @@
         border: none;
         height: 100%;
         width: 100% !important;
+        background-color: hsl(var(--card));
 
         .el-menu-item {
           padding: 0 15px;
+          color: hsl(var(--foreground) / 0.7);
 
           
           .el-icon {
@@ -77,7 +80,7 @@
         }
 
         .is-active {
-          color: $menuActiveText;
+          color: hsl(var(--success)) !important;
         }
       }
   
@@ -85,24 +88,26 @@
       .sub-menu-title-noDropdown,
       .el-sub-menu__title {
         padding: 0 15px;
+        color: hsl(var(--foreground) / 0.7);
 
         &:hover {
-          background-color: $menuHover !important;
+          background-color: hsl(var(--primary) / 0.1) !important;
         }
       }
   
       .is-active>.el-sub-menu__title {
-        color: $subMenuActiveText !important;
+        color: hsl(var(--success)) !important;
       }
   
       & .nest-menu .el-sub-menu>.el-sub-menu__title,
       & .el-sub-menu .el-menu-item {
         min-width: $sideBarWidth !important;
-        background-color: $subMenuBg !important;
+        background-color: hsl(var(--card)) !important;
         padding-left: 30px;
+        color: hsl(var(--foreground) / 0.7);
   
         &:hover {
-          background-color: $subMenuHover !important;
+          background-color: hsl(var(--primary) / 0.1) !important;
         }
       }
     }
@@ -225,9 +230,10 @@
   
     .nest-menu .el-sub-menu>.el-sub-menu__title,
     .el-menu-item {
+      color: hsl(var(--foreground) / 0.7);
       &:hover {
         // you can use $subMenuHover
-        background-color: $menuHover !important;
+        background-color: hsl(var(--primary) / 0.1) !important;
       }
     }
   
@@ -235,9 +241,11 @@
     >.el-menu--popup {
       max-height: 100vh;
       overflow-y: auto;
+      background-color: hsl(var(--card));
+      color: hsl(var(--foreground));
   
       &::-webkit-scrollbar-track-piece {
-        background: #d3dce6;
+        background: hsl(var(--muted));
       }
   
       &::-webkit-scrollbar {
@@ -245,7 +253,7 @@
       }
   
       &::-webkit-scrollbar-thumb {
-        background: #99a9bf;
+        background: hsl(var(--muted-foreground) / 0.3);
         border-radius: 20px;
       }
     }

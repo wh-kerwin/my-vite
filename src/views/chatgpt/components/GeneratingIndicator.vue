@@ -16,7 +16,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: hsl(var(--primary));
     animation: pulse 1.4s ease-in-out infinite;
 
     &:nth-child(1) { animation-delay: 0s; }

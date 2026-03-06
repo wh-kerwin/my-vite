@@ -364,28 +364,28 @@ onBeforeUnmount(() => {
 .chat-container {
   width: 100%;
   height: 100%;
-  background: #1e293b;
+  background: hsl(var(--card));
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid hsl(var(--border));
 }
 
 .message-list {
   flex: 1;
   overflow-y: auto;
-  background: #1e293b;
+  background: hsl(var(--card));
 
   &::-webkit-scrollbar {
     width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: hsl(var(--muted-foreground) / 0.3);
     border-radius: 3px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: hsl(var(--muted-foreground) / 0.5);
     }
   }
 
@@ -401,11 +401,11 @@ onBeforeUnmount(() => {
     padding: 40px;
 
     .empty-icon {
-      color: #3b82f6;
+      color: hsl(var(--primary));
     }
 
     :deep(.el-empty__description) {
-      color: #64748b;
+      color: hsl(var(--muted-foreground));
     }
   }
 }
@@ -436,18 +436,18 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
 
   .bubble-item-end & {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
+    background: hsl(var(--success) / 0.1);
+    color: hsl(var(--success));
   }
 }
 
 .message-sender {
   font-size: 12px;
-  color: #64748b;
+  color: hsl(var(--muted-foreground));
   margin-bottom: 4px;
 }
 
@@ -455,18 +455,18 @@ onBeforeUnmount(() => {
   padding: 12px 16px;
   border-radius: 12px;
   line-height: 1.6;
-  color: #f1f5f9;
+  color: hsl(var(--foreground));
   font-size: 14px;
-  background: rgba(255, 255, 255, 0.05);
+  background: hsl(var(--secondary));
 
   .bubble-item-end & {
-    background: rgba(59, 130, 246, 0.15);
+    background: hsl(var(--primary) / 0.15);
   }
 
   :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
     margin-top: 1em;
     margin-bottom: 0.5em;
-    color: #f1f5f9;
+    color: hsl(var(--foreground));
   }
 
   :deep(p) {
@@ -474,7 +474,7 @@ onBeforeUnmount(() => {
   }
 
   :deep(code) {
-    background: rgba(0, 0, 0, 0.3);
+    background: hsl(var(--secondary));
     padding: 2px 6px;
     border-radius: 4px;
     font-family: 'Fira Code', monospace;
@@ -484,7 +484,7 @@ onBeforeUnmount(() => {
   :deep(.code-block-wrapper) {
     position: relative;
     margin: 12px 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: hsl(var(--secondary));
     border-radius: 8px;
     overflow: hidden;
 
@@ -493,12 +493,12 @@ onBeforeUnmount(() => {
       justify-content: space-between;
       align-items: center;
       padding: 8px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
 
       .code-lang {
         font-size: 12px;
-        color: #94a3b8;
+        color: hsl(var(--muted-foreground));
         font-weight: 500;
       }
 
@@ -507,17 +507,17 @@ onBeforeUnmount(() => {
         align-items: center;
         gap: 4px;
         padding: 4px 8px;
-        background: rgba(59, 130, 246, 0.2);
-        border: 1px solid rgba(59, 130, 246, 0.3);
+        background: hsl(var(--primary) / 0.2);
+        border: 1px solid hsl(var(--primary) / 0.3);
         border-radius: 4px;
-        color: #3b82f6;
+        color: hsl(var(--primary));
         font-size: 12px;
         cursor: pointer;
         transition: all 0.2s;
 
         &:hover {
-          background: rgba(59, 130, 246, 0.3);
-          border-color: #3b82f6;
+          background: hsl(var(--primary) / 0.3);
+          border-color: hsl(var(--primary));
         }
 
         svg {
@@ -545,7 +545,7 @@ onBeforeUnmount(() => {
   }
 
   :deep(a) {
-    color: #3b82f6;
+    color: hsl(var(--primary));
     text-decoration: none;
 
     &:hover {
@@ -554,10 +554,10 @@ onBeforeUnmount(() => {
   }
 
   :deep(blockquote) {
-    border-left: 3px solid #3b82f6;
+    border-left: 3px solid hsl(var(--primary));
     padding-left: 1em;
     margin: 1em 0;
-    color: #94a3b8;
+    color: hsl(var(--muted-foreground));
   }
 }
 
@@ -573,17 +573,17 @@ onBeforeUnmount(() => {
   }
 
   :deep(.el-button) {
-    color: #64748b;
+    color: hsl(var(--muted-foreground));
 
     &:hover {
-      color: #3b82f6;
+      color: hsl(var(--primary));
     }
   }
 }
 
 :deep(.el-bubble-content-wrapper) {
   .el-bubble-content-filled {
-    background: rgba(2, 2, 2, 0.06);
+    background: hsl(var(--secondary));
     max-width: 60%;
   }
 

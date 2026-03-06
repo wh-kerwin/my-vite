@@ -3,14 +3,9 @@
     <hamburger :is-active="sidebar" class="hamburger-container" @toggle-click="toggleSideBar" />
     <breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
-      <!-- <template v-if="device!=='mobile'">
-          <search id="header-search" class="right-menu-item" />  
-          <error-log class="errLog-container right-menu-item hover-effect" />
-          <screenfull id="screenfull" class="right-menu-item hover-effect" />
-          <el-tooltip content="Global Size" effect="dark" placement="bottom">
-              <size-select id="size-select" class="right-menu-item hover-effect" />
-          </el-tooltip>
-      </template> -->
+      <!-- 主题切换 -->
+      <ToggleTheme />
+      
       <change-lang />
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
@@ -47,6 +42,7 @@
 import Hamburger from "@/components/Hamburger/index.vue";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
 import ChangeLang from "./changeLang.vue";
+import ToggleTheme from "./toggleTheme.vue";
 // eslint-disable-next-line no-unused-vars
 import Cookies from "js-cookie";
 import useAppStore from "@/store/app";
@@ -61,6 +57,7 @@ const sidebar = computed(() => appStore.sidebar);
 const toggleSideBar = () => {
   appStore.changeSidebar();
 };
+
 function logout() {
   // 清除token
   removeToken("vue3_admin_token");
@@ -71,14 +68,16 @@ function logout() {
 </script>
 
 <style lang="scss" scoped>
+
 .navbar {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: hsl(var(--card));
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
   // padding: 0px 20px;
   line-height: 50px;
+  border-bottom: 1px solid hsl(var(--border));
 
   .hamburger-container {
     line-height: 46px;
@@ -89,7 +88,7 @@ function logout() {
     -webkit-tap-highlight-color:transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: hsl(var(--primary) / 0.05)
     }
   }
 
@@ -102,17 +101,19 @@ function logout() {
     float: right;
     height: 100%;
     line-height: 50px;
+    display: flex;
 
     &:focus {
       outline: none;
     }
 
     .right-menu-item {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: hsl(var(--foreground) / 0.7);
       vertical-align: text-bottom;
 
       &.hover-effect {
@@ -120,10 +121,11 @@ function logout() {
         transition: background .3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: hsl(var(--primary) / 0.05)
         }
       }
     }
+
 
     .avatar-container {
       margin-right: 10px;
@@ -139,10 +141,14 @@ function logout() {
           width: 40px;
           height: 40px;
           border-radius: 10px;
+          border: 2px solid hsl(var(--primary) / 0.2);
         }
 
         .user-name {
           vertical-align: super;
+          color: hsl(var(--foreground));
+          font-weight: 500;
+          margin-left: 8px;
         }
 
         .el-icon--right {

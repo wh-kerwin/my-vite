@@ -41,7 +41,7 @@ const logo = ref("vite.svg");
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background: #2b2f3a;
+    background: hsl(var(--foreground) / 0.1);
     text-align: center;
     overflow: hidden;
 
@@ -59,10 +59,10 @@ const logo = ref("vite.svg");
         & .sidebar-title {
             display: inline-block;
             margin: 0;
-            color: #fff;
+            color: hsl(var(--foreground));
             font-weight: 600;
             line-height: 50px;
-            font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+            font-family: 'Plus Jakarta Sans', Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
             vertical-align: middle;
             margin-left: 10px;
         }

@@ -1,7 +1,7 @@
 <template>
     <el-dropdown trigger="hover">
       <div class="change-lang">
-        <svg-icon name="language" class="icon"></svg-icon>
+        <svg-icon name="language" class="icon" color="hsl(var(--foreground) / 0.7)"></svg-icon>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -41,10 +41,11 @@ const { changeLang } = useLang();
     display: flex;
     align-items: center;
     &:hover {
-      background: #f5f5f5;
+      background: hsl(var(--primary) / 0.1);
     }
     .icon {
       font-size: 18px;
+      color: hsl(var(--foreground) / 0.7);
     }
   }
   </style>

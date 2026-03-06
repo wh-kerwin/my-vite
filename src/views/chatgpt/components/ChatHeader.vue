@@ -46,11 +46,11 @@ const handleModelChange = (value) => {
 <style lang="scss" scoped>
 .chat-header {
   padding: 16px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid hsl(var(--border));
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(15, 23, 42, 0.8);
+  background: hsl(var(--card));
   backdrop-filter: blur(10px);
 
   .header-left {
@@ -62,33 +62,33 @@ const handleModelChange = (value) => {
       margin: 0;
       font-size: 20px;
       font-weight: 600;
-      color: #f1f5f9;
+      color: hsl(var(--foreground));
       display: flex;
       align-items: center;
       gap: 8px;
 
       .title-icon {
-        color: #3b82f6;
+        color: hsl(var(--primary));
       }
     }
 
     .model-selector {
       :deep(.el-input__wrapper) {
-        background: rgba(255, 255, 255, 0.05);
+        background: hsl(var(--secondary));
         box-shadow: none;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid hsl(var(--border));
 
         &:hover, &.is-focus {
-          border-color: #3b82f6;
+          border-color: hsl(var(--primary));
         }
       }
 
       :deep(.el-input__inner) {
-        color: #f1f5f9;
+        color: hsl(var(--foreground));
       }
 
       :deep(.el-select__caret) {
-        color: #94a3b8;
+        color: hsl(var(--muted-foreground));
       }
     }
   }

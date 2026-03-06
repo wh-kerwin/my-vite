@@ -80,15 +80,15 @@ const handleClosed = () => {
 
 <style lang="scss" scoped>
 :deep(.el-dialog) {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid hsl(var(--border));
 
   .el-dialog__body {
     .el-alert__title {
-      color: #94a3b8;
+      color: hsl(var(--muted-foreground));
     }
 
     .el-alert a {
-      color: #3b82f6;
+      color: hsl(var(--primary));
     }
   }
 }

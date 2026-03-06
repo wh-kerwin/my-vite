@@ -6,7 +6,7 @@
         v-model="messageInput"
         placeholder="输入消息，Shift+Enter 换行..."
         :submit-btn-disabled="isGenerating || !hasApiKey"
-        :input-style="{ color: '#f1f5f9' }"
+        :input-style="{ color: 'hsl(var(--foreground))' }"
         @submit="$emit('submit')"
       >
         <template #action-list>
@@ -26,13 +26,13 @@
 </template>
 
 <script setup>
-import { Sender } from 'vue-element-plus-x'
-import { VideoPause, WarningFilled } from '@element-plus/icons-vue'
+import { Sender } from "vue-element-plus-x";
+import { VideoPause, WarningFilled } from "@element-plus/icons-vue";
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: ''
+    default: ""
   },
   isGenerating: {
     type: Boolean,
@@ -42,27 +42,27 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-const emit = defineEmits(['update:modelValue', 'submit', 'stop'])
+const emit = defineEmits(["update:modelValue", "submit", "stop"]);
 
 const messageInput = computed({
   get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val)
-})
+  set: (val) => emit("update:modelValue", val)
+});
 
-const senderRef = ref(null)
+const senderRef = ref(null);
 
 defineExpose({
   senderRef
-})
+});
 </script>
 
 <style lang="scss" scoped>
 .sender-area {
   padding: 16px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.8);
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
   backdrop-filter: blur(10px);
 
   .sender-wrapper {
@@ -74,20 +74,20 @@ defineExpose({
     top: -30px;
     left: 0;
     font-size: 12px;
-    color: #f59e0b;
+    color: hsl(var(--warning));
     display: flex;
     align-items: center;
     gap: 4px;
   }
 
   :deep(.el-sender) {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(var(--border));
     border-radius: 12px;
     padding: 8px 12px;
 
     &:hover, &:focus-within {
-      border-color: #3b82f6;
+      border-color: hsl(var(--primary));
     }
 
     .el-sender-content {
@@ -95,7 +95,7 @@ defineExpose({
     }
 
     textarea {
-      color: #f1f5f9;
+      color: hsl(var(--foreground));
       background: transparent !important;
       border: none !important;
       resize: none !important;
@@ -104,7 +104,7 @@ defineExpose({
       line-height: 1.5;
 
       &::placeholder {
-        color: #64748b;
+        color: hsl(var(--muted-foreground));
       }
 
       &:focus {
@@ -113,19 +113,16 @@ defineExpose({
     }
 
     .el-sender__input {
-      color: #f1f5f9;
-      background: transparent;
-
       &::placeholder {
-        color: #64748b;
+        color: hsl(var(--muted-foreground));
       }
     }
 
     .el-sender__submit-btn {
-      background: #3b82f6;
+      background: hsl(var(--primary));
 
       &:hover {
-        background: #2563eb;
+        background: hsl(var(--primary-hover));
       }
     }
   }

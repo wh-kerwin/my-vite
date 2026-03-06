@@ -5,18 +5,16 @@
         <logo v-if="showLogo" :collapse="isCollapse" ></logo>
         <!-- 当侧边栏超出浏览器视口时，显示滚动条 -->
         <el-scrollbar
-          wrap-class="scrollbar-wrapper" 
+          wrap-class="scrollbar-wrapper"
           :class="showLogo ? 'scrollbarHeight' : ''"
         >
           <el-menu
-            active-text-color="#409EFF"
             :default-active="defaultActive"
             :collapse="!isCollapse"
-            background-color="#304156"
-            text-color="#bfcbd9"
             :unique-opened="false"
             :collapse-transition="false"
             mode="vertical"
+            class="sidebar-menu"
           >
             <myAside :main-router-list="mainRouterList"></myAside>
           </el-menu>
@@ -107,6 +105,39 @@ onMounted(() => {
       top: 0;
     }
   }
+
+  /* Sidebar menu using CSS variables */
+  .sidebar-menu {
+    --el-menu-bg-color: hsl(var(--primary) / 0.95);
+    --el-menu-text-color: hsl(var(--foreground) / 0.7);
+    --el-menu-hover-bg-color: hsl(var(--primary) / 0.1);
+    --el-menu-active-color: hsl(var(--success));
+    border-right: none;
+  }
+
+  :deep(.el-menu) {
+    background-color: transparent !important;
+    border-right: none;
+  }
+
+  :deep(.el-menu-item),
+  :deep(.el-sub-menu__title) {
+    color: hsl(var(--foreground) / 0.7) !important;
+    
+    &:hover {
+      background-color: hsl(var(--primary) / 0.1) !important;
+    }
+    
+    &.is-active {
+      color: hsl(var(--success)) !important;
+      background-color: hsl(var(--primary) / 0.15) !important;
+    }
+  }
+
+  :deep(.el-menu-item.is-active) {
+    color: hsl(var(--success)) !important;
+  }
+
   .drawer-bg {
     background: #000;
     opacity: 0.3;
@@ -145,7 +176,7 @@ onMounted(() => {
     width: 100%;
     position: relative;
     overflow-x: hidden;
-    background-color: #f2f3f5;
+    background-color: hsl(var(--background));
 
     /*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
     // 滚动条整体部分

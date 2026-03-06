@@ -1,13 +1,13 @@
-// sidebar
+// sidebar - Using design system colors
 $menuText:#bfcbd9;
-$menuActiveText:#409eff;
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+$menuActiveText:#10B981; // Success green
+$subMenuActiveText:#f4f4f5;
 
-$menuBg:#304156;
-$menuHover:#263445;
+$menuBg: hsl(222 47% 15%);
+$menuHover: hsl(222 47% 18%);
 
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+$subMenuBg: hsl(222 47% 12%);
+$subMenuHover: hsl(222 47% 10%);
 
 $sideBarWidth: 210px;
 

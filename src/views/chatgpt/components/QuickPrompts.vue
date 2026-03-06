@@ -33,13 +33,13 @@ defineEmits(["select"]);
   margin-top: 20px;
 
   .prompt-btn {
-    border-color: #3b82f6;
-    color: #3b82f6;
-    background: rgba(59, 130, 246, 0.1);
+    border-color: hsl(var(--primary));
+    color: hsl(var(--primary));
+    background: hsl(var(--primary) / 0.1);
 
     &:hover {
-      border-color: rgba(255, 255, 255, 0.1);
-      color: #94a3b8;
+      border-color: hsl(var(--border));
+      color: hsl(var(--muted-foreground));
     }
   }
 }

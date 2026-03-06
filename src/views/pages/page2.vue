@@ -74,7 +74,7 @@ onMounted(() => {
 .page-container {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  background: hsl(var(--background));
 }
 
 .page-header {
@@ -86,7 +86,7 @@ onMounted(() => {
 .page-title {
   font-size: 2.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(270 65% 60%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -96,7 +96,7 @@ onMounted(() => {
 
 .page-description {
   font-size: 1.1rem;
-  color: #64748b;
+  color: hsl(var(--muted-foreground));
   font-weight: 400;
   max-width: 600px;
   margin: 0 auto;
@@ -114,8 +114,8 @@ onMounted(() => {
 .loading-spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid #e2e8f0;
-  border-top-color: #667eea;
+  border: 4px solid hsl(var(--border));
+  border-top-color: hsl(var(--primary));
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -123,7 +123,7 @@ onMounted(() => {
 .loading-text {
   margin-top: 1.5rem;
   font-size: 1rem;
-  color: #64748b;
+  color: hsl(var(--muted-foreground));
   font-weight: 500;
 }
 
@@ -148,7 +148,7 @@ onMounted(() => {
 
 .empty-text {
   font-size: 1.2rem;
-  color: #94a3b8;
+  color: hsl(var(--muted-foreground));
   font-weight: 500;
 }
 

@@ -67,3 +67,17 @@ function pathCompile(path) {
   return toPath(params);
 }
 </script>
+
+<style lang="scss" scoped>
+:deep(.el-breadcrumb__inner) {
+  color: hsl(var(--foreground) / 0.7) !important;
+    
+    a {
+      color: hsl(var(--foreground) / 0.7) !important;
+    }
+
+    &:hover {
+      background-color: hsl(var(--primary) / 0.1) !important;
+    }
+}
+</style>
